@@ -1,18 +1,37 @@
-# Order Lifecycle Management System
+# Order Lifecycle Management System (OLMS) - Salesforce
 
-An end-to-end Salesforce solution to automate and track the complete order lifecycle from creation to fulfillment.
+A complete end-to-end Order-to-Cash automation built on the Salesforce Platform. This project manages the entire lifecycle of an order from creation to delivery, with automated inventory, approvals, and real-time tracking.
 
-This project demonstrates real-world business process automation using Salesforce Platform.
+**Live Org:** [Add Your Dev Org Link] | **Demo Video:** [Add Loom/YouTube Link]
 
-### 🔗 Live Demo & Screenshots
-> Add your Org screenshots here (Order List View, Flow, Dashboard)
+---
 
-### 🚀 Key Features
+### 📸 Screenshots
+| Order Creation LWC | Order Tracking Dashboard | Approval Flow |
+| :---: | :---: | :---: |
+| Add screenshot here | Add screenshot here | Add screenshot here |
 
-**1. Order Management**
-- Custom Order object with complete lifecycle: `Draft -> Activated -> Shipped -> Delivered`
-- Automated stock validation and pricing calculations.
+---
 
-**2. Automation (Apex & Flows)**
-- **Apex Triggers:** Automatically update inventory on order activation and prevent order deletion if shipped.
-- **Lightning Flows:** Automated approval process for high-value orders and email alerts to customers
+### 🎯 Business Use Case
+Manual order management leads to stock errors, delayed deliveries, and no visibility. This system solves it by:
+1.  Validating stock before order activation
+2.  Automating approvals for high-value orders
+3.  Giving real-time status to customers and admins
+
+### ✨ Key Features
+
+#### 1. Custom Data Model
+- **Objects:** `Order`, `OrderItem`, `Product2`, `Pricebook`
+- **Fields:** Order Status (Draft -> Activated -> Shipped -> Delivered), Tracking Number, Auto-calculated Total Amount
+
+#### 2. LWC Components (What I Built)
+- `orderCreator`: For Account page. Add multiple products with quantity and create Order + OrderItems in one click. Uses `createOrderWithItems` Apex method.
+- `orderTracker`: Shows real-time order status with progress indicator (SLDS Path). Uses `@wire getRecord`.
+- `orderManagementDashboard`: Admin dashboard with total orders, revenue, and pending approvals.
+
+#### 3. Backend Automation - Apex
+- `OrderTrigger` (Bulkified, Handler Pattern): 
+    - On Activation: Deducts stock from Product, prevents activation if out-of-stock.
+    - On Shipment: Auto-generates tracking number and sends email.
+- `OrderManagementController`: AuraEnabled methods for LWC, with proper try-catch and security (
